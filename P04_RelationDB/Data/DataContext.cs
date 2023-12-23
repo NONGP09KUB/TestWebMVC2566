@@ -12,7 +12,7 @@ namespace P04_RelationDB.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS; Database=TestProduct11; Trusted_connection=True; TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Server= DESKTOP-3268S1F\\SQLEXPRESS;  Database=TestProduct11; Trusted_connection=True; TrustServerCertificate=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
