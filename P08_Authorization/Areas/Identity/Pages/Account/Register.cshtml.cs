@@ -15,7 +15,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using P08_Authorization.Areas.Identity.Data;
@@ -30,13 +32,16 @@ namespace P08_Authorization.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<MyUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;    
 
         public RegisterModel(
             UserManager<MyUser> userManager,
             IUserStore<MyUser> userStore,
             SignInManager<MyUser> signInManager,
             ILogger<RegisterModel> logger,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender)
+
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +49,7 @@ namespace P08_Authorization.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -98,6 +104,12 @@ namespace P08_Authorization.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+
+            [Required]
+            public string Role {  get; set; }
+            [ValidateNever] // แสดงถึงว่าไม่ต้อง บังคับใส่ [Required] ตัวนี้นั้นเอง
+            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
 

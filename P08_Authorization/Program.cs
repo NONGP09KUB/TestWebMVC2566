@@ -1,9 +1,9 @@
-global
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using P08_Authorization.Areas.Identity.Data;
-using P08_Authorization.Data;
-using P08_Authorization.Service;
+
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
+global using P08_Authorization.Areas.Identity.Data;
+global using P08_Authorization.Data;
+global using P08_Authorization.Service;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AuthorizationContextConnection") ?? throw new InvalidOperationException("Connection string 'AuthorizationContextConnection' not found.");
 
