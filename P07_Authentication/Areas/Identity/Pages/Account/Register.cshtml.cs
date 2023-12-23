@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -50,7 +51,7 @@ namespace P07_Authentication.Areas.Identity.Pages.Account
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        [BindProperty]
+        [BindProperty] // เอาไปใช้ในฝั่ง HTML
         public InputModel Input { get; set; }
 
         /// <summary>
@@ -98,6 +99,14 @@ namespace P07_Authentication.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+
+
+            [Required]
+            public string FirstName { get; set; }
+
+            [Required]
+            public string LastName { get; set; }
         }
 
 
@@ -115,9 +124,16 @@ namespace P07_Authentication.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
+                // ใส่เพิ่มเอง 
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                // ใส่เพิ่มเอง 
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                // บรรทัดที่เอาลง DataBase
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                // บรรทัดที่เอาลง DataBase
 
                 if (result.Succeeded)
                 {
