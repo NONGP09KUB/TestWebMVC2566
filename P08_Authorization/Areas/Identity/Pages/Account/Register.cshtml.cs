@@ -115,6 +115,15 @@ namespace P08_Authorization.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            if (User.Identity.IsAuthenticated) Response.Redirect("/");
+            Input = new InputModel
+            {
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(name => new SelectListItem
+                {
+                    Text = name,
+                    Value = name
+                })
+            };
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
