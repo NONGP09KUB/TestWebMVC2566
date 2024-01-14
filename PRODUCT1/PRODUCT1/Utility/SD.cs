@@ -1,6 +1,6 @@
 ﻿namespace PRODUCT1.Utility
 {
-    public class SD
+    public static class SD
     {
         public const string Role_User_Indi = "Individual";
         public const string Role_User_Comp = "Company";
