@@ -41,23 +41,28 @@ namespace PRODUCT1.Service
         {
             var identityRole = await Find(name);
 
-
-            if (identityRole == null) return false;
-
-
-            //ตรวจสอบมีผู้ใช้บทบาทนี้หรือไม่
+            if (identityRole == null)
+                {
+                // ไม่พบบทบาทที่ต้องการลบ
+                return false;
+            }
             var usersInRole = await _userManager.GetUsersInRoleAsync(name);
             if (usersInRole.Count != 0) return false;
 
-
+            // ลบบทบาท
             var result = await _roleManager.DeleteAsync(identityRole);
 
+            if (!result.Succeeded)
+            {
+                // การลบไม่สำเร็จ
+                return false;
+            }
 
-            if (!result.Succeeded) return false;
-
-
+            // การลบสำเร็จ
             return true;
         }
+
+
 
 
         public async Task<IdentityRole> Find(string name)
@@ -67,6 +72,7 @@ namespace PRODUCT1.Service
         }
 
 
+
         public async Task<List<IdentityRole>> GetAll()
         {
             var result = await _roleManager.Roles.ToListAsync();
@@ -74,9 +80,10 @@ namespace PRODUCT1.Service
         }
 
 
+
         public async Task<bool> Update(RoleUpdateDto roleUpdateDto)
         {
-            var identityRole = await Find(roleUpdateDto.UpdateName);
+            var identityRole = await Find(roleUpdateDto.Name);
 
 
             if (identityRole == null) return false;
@@ -97,5 +104,6 @@ namespace PRODUCT1.Service
 
 
     }
+
 
 }

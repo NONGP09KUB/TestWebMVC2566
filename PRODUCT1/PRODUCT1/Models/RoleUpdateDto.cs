@@ -1,7 +1,10 @@
-﻿namespace PRODUCT1.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PRODUCT1.Models
 {
     public class RoleUpdateDto : RoleDto
     {
+       
         public string UpdateName { get; set; }
     }
 }

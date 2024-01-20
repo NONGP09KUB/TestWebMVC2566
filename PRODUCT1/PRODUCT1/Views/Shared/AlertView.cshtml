@@ -1,0 +1,22 @@
+﻿@if (TempData["Error"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <style>
+        /* Customize the background color */
+        .toast-warning {
+            background-color: #ffcc00; /* Change this to your desired color */
+        }
+    </style>
+
+    <script type="text/javascript">
+        toastr.options = {
+            "positionClass": "toast-top-right",
+            "timeOut": "5000", // 5 seconds
+        };
+
+        toastr.warning('@TempData["Error"]');
+    </script>
+}

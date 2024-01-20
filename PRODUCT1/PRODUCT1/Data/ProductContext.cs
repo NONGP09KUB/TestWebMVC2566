@@ -16,5 +16,6 @@ namespace PRODUCT1.Data
             optionsBuilder.UseSqlServer("Server= DESKTOP-3268S1F\\SQLEXPRESS; Database=Product10; Trusted_Connection=True; TrustServerCertificate=True");
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }
