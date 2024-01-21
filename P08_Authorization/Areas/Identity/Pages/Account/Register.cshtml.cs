@@ -32,16 +32,15 @@ namespace P08_Authorization.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<MyUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;    
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<MyUser> userManager,
             IUserStore<MyUser> userStore,
             SignInManager<MyUser> signInManager,
             ILogger<RegisterModel> logger,
-            RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender)
-
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -105,17 +104,25 @@ namespace P08_Authorization.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-
+            //ใส่ properties เพิ่มเข้าไปเอง
+            #region MyField
             [Required]
-            public string Role {  get; set; }
-            [ValidateNever] // แสดงถึงว่าไม่ต้อง บังคับใส่ [Required] ตัวนี้นั้นเอง
+            public string Role { get; set; }
+
+            [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+            #endregion
+
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            #region MyRegion ใส่เพิ่มเข้าไปเอง
+
             if (User.Identity.IsAuthenticated) Response.Redirect("/");
+
+            //ตัวเลือกบทบาทแบบรายการ อ่านมาจากฐานข้อมูล
             Input = new InputModel
             {
                 RoleList = _roleManager.Roles.Select(x => x.Name).Select(name => new SelectListItem
@@ -124,6 +131,9 @@ namespace P08_Authorization.Areas.Identity.Pages.Account
                     Value = name
                 })
             };
+            #endregion
+
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -144,12 +154,11 @@ namespace P08_Authorization.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    #region 
+                    #region MyRole กำหนดเพิ่มบทบาทให้กับผู้ใช้
 
-                        await _userManager.AddToRoleAsync(user, Input.Role);
-                    
+                    await _userManager.AddToRoleAsync(user, Input.Role);
+
                     #endregion
-
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

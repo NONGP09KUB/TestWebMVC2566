@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace P08_Authorization.Controllers
 {
@@ -10,11 +11,11 @@ namespace P08_Authorization.Controllers
         {
             _userManager = userManager;
         }
-
-        public async Task< IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var user = await _userManager.Users.ToListAsync();
-            return View(user);
+            var users = await _userManager.Users.ToListAsync();
+
+            return View(users);
         }
     }
 }

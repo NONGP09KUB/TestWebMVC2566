@@ -25,32 +25,32 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if(User.IsInRole("Admin")){
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="RoleDto" asp-action="Index">Role</a>
-                        </li>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Role</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="RoleDto" asp-action="Create">Create</a>
-                        </li>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Product
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            </a>
+                            <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Product List</a></li>
                                 <li><a class="dropdown-item" asp-controller="Product" asp-action="Create">Create</a></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-controller="Product" asp-action="Order">Order</a></li>
                             </ul>
-                        </div>
+                        </li>
+
                     </ul>
                 </div>
-                <div>
-                    <partial name="_LoginPartial.cshtml"></partial>
-                </div>
+                <partial name="_LoginPartial" />
             </div>
         </nav>
     </header>
@@ -62,7 +62,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2566 - P08_Authorization - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - P08_Authorization - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
