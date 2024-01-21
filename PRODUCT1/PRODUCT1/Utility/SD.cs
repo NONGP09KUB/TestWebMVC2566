@@ -10,7 +10,10 @@
         public const string StatusPending = "Pending";
         public const string StatusApproved = "Approved ";
         public const string StatusCancelled = "Cancelled ";
-
+        // ของใหม่ 
+        public const string ImagePath = @"\images";
+        public const string ProductPath = ImagePath + @"\products";
+        // ของใหม่ 
 
 
     }

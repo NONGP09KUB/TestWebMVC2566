@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PRODUCT1.Controllers
@@ -59,6 +60,14 @@ namespace PRODUCT1.Controllers
 
         public IActionResult Delete(int? id)
         {
+            var category = productContext.Categories.Find(id);
+            var  Form = productContext.Products.Any(p => p.CategoryId == category.Id);
+            if (Form)
+            {
+                TempData["Error"] = " มีสินค้าที่ใช้งาน 'หมวดหมู่นี้อยู่' ไม่สามารถลบได้ ";
+                return RedirectToAction("Index");
+            }
+
             var cat = productContext.Categories.Find(id);
             if (cat != null)
             {

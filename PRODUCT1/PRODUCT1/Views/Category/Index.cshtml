@@ -56,7 +56,7 @@
                 </td>
                 <td>
                     <a asp-action="Delete" asp-route-id="@item.Id"
-                    onclick="confirm('คุณจะลบจริง ๆ หรือ ห้ะะะะะ')">Delete</a>
+                    onclick="return confirm('คุณจะลบจริง ๆ หรือ ห้ะะะะะ')">Delete</a>
                 </td>
             </tr>
         }

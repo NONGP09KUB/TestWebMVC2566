@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create"><i class="bi bi-cloud-plus-fill" style="font-size:40px;" ></i></a>
+    <a asp-controller="Product" asp-action="Upcreate"><i class="bi bi-cloud-plus-fill" style="font-size:40px;"></i></a>
 </p>
 <table class="table" id="myTable">
     <thead style="background-color:gray" class="mt-4">     
@@ -45,24 +45,24 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.Raw(item.Description)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>    
-                    @Html.DisplayFor(modelItem => item.ImageUrl)
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="max-width: 200px; max-height: 200px; border-radius:2rem;" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Category.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pen-fill" style="font-size:40px;"></i></a>
+                    <a asp-action="Upcreate" asp-route-id="@item.Id"><i class="bi bi-pen-fill" style="font-size:40px;"></i></a>
            
                 </td>
                 <td>
-                   
-                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-x-circle" style="font-size:40px;"></i> </a>
+
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-x-circle" style="font-size:40px;" onclick="return confirm('คุณจะลบจริง ๆ หรือ ห้ะะะะะ')"></i> </a>
                 </td>
             </tr>
         }
