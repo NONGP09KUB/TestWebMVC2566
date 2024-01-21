@@ -41,7 +41,7 @@ namespace PRODUCT1.Controllers
             {
                 Product = new()
                 {
-                    Name = "TEst",
+                    Name = "Test",
                     Description = "123",
                     Price = 123
                 },
@@ -82,7 +82,7 @@ namespace PRODUCT1.Controllers
                 if (!Directory.Exists(uploads)) Directory.CreateDirectory(uploads);
 
                 //กรณีมีรูปภาพเดิมตอ้งลบทิ้งก่อน
-                if (productVM.Product.ImageUrl != null)
+                if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
                 {
                     // wwwRootPath\images\product\ชื่องาน 
                     var oldImagePath = Path.Combine(uploads, productVM.Product.ImageUrl);
@@ -120,22 +120,27 @@ namespace PRODUCT1.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            var data = productContext.Products.Find(id);
-            if (data == null)
+            var product = productContext.Products.Find(id);
+            if (product == null)
             {
-                return NotFound();
+                /*Update*/
+                TempData["Error"] = "Not Found.";
+                return RedirectToAction(nameof(Index));
             }
-            var oldImagePath = Path.Combine(webHostEnvironment.WebRootPath,data.ImageUrl.TrimStart('\\'));
-            if (System.IO.File.Exists(oldImagePath))
+            if (!string.IsNullOrEmpty(product.ImageUrl))
             {
-                System.IO.File.Delete(oldImagePath);
+                var oldImagePath = webHostEnvironment.WebRootPath + SD.ProductPath + "\\" + product.ImageUrl;
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
             }
-            productContext.Products.Remove(data);
+            //wwwroot\images\products\Name.jpg
+            productContext.Remove(product);
             productContext.SaveChanges();
-            TempData["success"] = "Delete Successful";
+            TempData["Error"] = "Delete Successfully.";
             return RedirectToAction(nameof(Index));
         }
     }

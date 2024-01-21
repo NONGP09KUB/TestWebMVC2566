@@ -1,11 +1,18 @@
 ﻿@model ProductVM
+
+<div>
+
+</div>
 <div class="row">
     <div class="col-8">
         <form asp-action="Upcreate" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="btn btn-warning"></div>
-            <input asp-for="Product.Id" class="form-control" hidden />
+            @* <input hidden asp-for="Product.Id" class="form-control" /> *@
 
+            @*  <input hidden asp-for="Product.ImageUrl" class="form-control"  /> *@
+            @Html.HiddenFor(Model => Model.Product.ImageUrl)
+            @Html.HiddenFor(Model => Model.Product.Id)
 
             <div class="mb-3">
                 <label asp-for="Product.Name"></label>
@@ -28,7 +35,7 @@
 
             <div class="form-group">
                 <label asp-for="Product.ImageUrl" class="control-label"></label>
-                <input  type="file" id="uploadBox" asp-for="file" name="file" class="form-control" onchange="loadFile(event)" />
+                <input type="file" id="uploadBox" asp-for="file" name="file" class="form-control" onchange="loadFile(event)" />
             </div>
 
             <div class="mb-3 mt-4">
@@ -49,10 +56,19 @@
         </div>
     </div>
 
-
+    @* || Model.Product.Id ==  0*@
     <div class="col-4">
-        <img src="@Model.Product.ImageUrl" width="100%" class="m-2 borderrounded" id="output" />
+        @if (!string.IsNullOrEmpty(Model.Product.ImageUrl)) //Update
+        {
+            <img src="@(SD.ProductPath+"\\"+Model.Product.ImageUrl)" width="100%" class="m-2 border rounded" id="output" />
+        }
+        else //Display
+        {
+            <img width="100%" class="m-2 border rounded" id="output" />
+        }
+
     </div>
+
 </div>
 
 
