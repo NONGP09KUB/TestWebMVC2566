@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PRODUCT1.Models;
 using System.Diagnostics;
 
 namespace PRODUCT1.Controllers
@@ -22,6 +21,7 @@ namespace PRODUCT1.Controllers
         {
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
