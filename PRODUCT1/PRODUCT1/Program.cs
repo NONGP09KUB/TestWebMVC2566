@@ -5,6 +5,7 @@ global using Microsoft.EntityFrameworkCore;
 global using PRODUCT1.Data;
 global using PRODUCT1.Service;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using PRODUCT1.Service.IService;
 var builder = WebApplication.CreateBuilder(args);
 //var connectionString = builder.Configuration.GetConnectionString("PRODUCT1ContextConnection") ?? throw new InvalidOperationException("Connection string 'PRODUCT1ContextConnection' not found.");
 
@@ -20,8 +21,17 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 }).AddDefaultTokenProviders()
 .AddEntityFrameworkStores<ProductContext>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+    
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ShoppingCartService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddRazorPages();
