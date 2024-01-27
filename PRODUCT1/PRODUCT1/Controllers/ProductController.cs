@@ -35,56 +35,52 @@ namespace PRODUCT1.Controllers
         }
         //===========================================================================================
 
-        public IActionResult Upcreate(int? id)
+        public IActionResult UpCreate(int? id)
         {
             var productVM = new ProductVM()
             {
                 Product = new()
                 {
-                    Name = "Test",
-                    Description = "123",
-                    Price = 123
+                    Name = "TestProduct",
+                    Price = 1,
+                    Description = "Test Description"
                 },
-                CategoryList = productContext.Categories.Select(x => new SelectListItem
+                CategoryList = productContext.Categories.Select(item => new SelectListItem
                 {
-                    Text = x.Name,
-                    Value = x.Id.ToString(),
+                    Text = item.Name,
+                    Value = item.Id.ToString()
                 })
             };
-            // ต้องใช้ && เท่านั้นถ้าใช้ || มันอาจจะทำงาน
             if (id != null && id != 0)
             {
-                //update
+                /*Update*/
                 productVM.Product = productContext.Products.Find(id);
                 if (productVM.Product == null)
                 {
-                    TempData["Error"] = "ไม่มีข้อมูล";
                     return RedirectToAction(nameof(Index));
                 }
+
             }
             return View(productVM);
         }
-
         [HttpPost]
-        public IActionResult Upcreate(ProductVM productVM)
+        public IActionResult UpCreate(ProductVM productVM)
         {
             if (!ModelState.IsValid) { return View(productVM); }
-            //=================================== รูปภาพ ===============================================
+            #region Image Management
             string wwwRootPath = webHostEnvironment.WebRootPath;
             var file = productVM.file;
-
             if (file != null)
             {
                 string fileName = Guid.NewGuid().ToString();
                 var extension = Path.GetExtension(file.FileName);
-                var uploads = wwwRootPath + SD.ProductPath;
-                // ของเก่า Path.Combine(wwwRootPath, @"images\products");
-                if (!Directory.Exists(uploads)) Directory.CreateDirectory(uploads);
 
+                var uploads = wwwRootPath + SD.ProductPath; //wwwroot\images\product
+                if (!Directory.Exists(uploads))
+                    Directory.CreateDirectory(uploads);
                 //กรณีมีรูปภาพเดิมตอ้งลบทิ้งก่อน
                 if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
                 {
-                    // wwwRootPath\images\product\ชื่องาน 
                     var oldImagePath = Path.Combine(uploads, productVM.Product.ImageUrl);
                     if (System.IO.File.Exists(oldImagePath))
                     {
@@ -92,32 +88,27 @@ namespace PRODUCT1.Controllers
                     }
                 }
                 //บันทึกรุปภาพใหม่
+
                 using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
                 {
                     file.CopyTo(fileStreams);
                 }
 
                 productVM.Product.ImageUrl = fileName + extension;
-                //@"\images\products\" ของเก่า ต่อท้าย =
             }
-            //================================== รูปภาพ ================================================
-
+            #endregion Image Management
             var id = productVM.Product.Id;
-
-            if (id != null)
+            if (id != 0)
             {
-                productContext.Products.Update(productVM.Product);
-
-                TempData["Error"] = "อัพเดตข้อมูลเสร็จสิ้น";
-
+                /*Update*/
+                productContext.Update(productVM.Product);
             }
             else
             {
-                productContext.Products.Add(productVM.Product);
-                TempData["Error"] = "เพิ่มข้อมูลสำเร็จ";
+                /*Create*/
+                productContext.Add(productVM.Product);
             }
             productContext.SaveChanges();
-
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Delete(int id)
@@ -126,10 +117,10 @@ namespace PRODUCT1.Controllers
             if (product == null)
             {
                 /*Update*/
-                TempData["Error"] = "Not Found.";
+                TempData["Message"] = "Not Found.";
                 return RedirectToAction(nameof(Index));
             }
-            if (!string.IsNullOrEmpty(product.ImageUrl))
+            if (product.ImageUrl != null)
             {
                 var oldImagePath = webHostEnvironment.WebRootPath + SD.ProductPath + "\\" + product.ImageUrl;
                 if (System.IO.File.Exists(oldImagePath))
@@ -140,8 +131,9 @@ namespace PRODUCT1.Controllers
             //wwwroot\images\products\Name.jpg
             productContext.Remove(product);
             productContext.SaveChanges();
-            TempData["Error"] = "Delete Successfully.";
+            TempData["Message"] = "Delete Successfully.";
             return RedirectToAction(nameof(Index));
         }
     }
 }
+

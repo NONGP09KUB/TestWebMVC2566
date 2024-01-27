@@ -1,7 +1,6 @@
 ﻿@model ProductVM
 
 <div>
-
 </div>
 <div class="row">
     <div class="col-8">
@@ -58,9 +57,9 @@
 
     @* || Model.Product.Id ==  0*@
     <div class="col-4">
-        @if (!string.IsNullOrEmpty(Model.Product.ImageUrl)) //Update
+        @if (Model.Product.ImageUrl != null ) //Update
         {
-            <img src="@(SD.ProductPath+"\\"+Model.Product.ImageUrl)" width="100%" class="m-2 border rounded" id="output" />
+            <img src="@(SD.ProductPath + "\\" + Model.Product.ImageUrl)" width="100%" class="m-2 border rounded" id="output" />
         }
         else //Display
         {
