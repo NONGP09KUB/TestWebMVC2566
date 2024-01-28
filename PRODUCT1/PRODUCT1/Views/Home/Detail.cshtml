@@ -1,6 +1,4 @@
 ﻿@model ShoppingCart
-
-
 <form method="post">
     @*<input asp-for="Product.Id" hidden />*@
     <div class="card  container pt-4">
@@ -21,7 +19,7 @@
                                 <div>Price</div>
                             </div>
                             <div class="p-1 col-2 bg-secondary">
-                                <div>@Model.Product.Price.ToString("c")</div>
+                                <div>$@Model.Product.Price.ToString("0.00")</div>
                             </div>
                         </div>
                         <div class="row pl-2">
@@ -37,7 +35,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-lg-3 offset-lg-1 text-center">
-                        <img src="@(SD.ProductPath +"\\"+ Model.Product.ImageUrl)" width="100%" class="rounded" />
+                        <img src="@(SD.ProductPath + "/" + Model.Product.ImageUrl)" width="100%" class="rounded" />
                     </div>
                 </div>
             </div>
@@ -54,14 +52,7 @@
         </div>
     </div>
 </form>
-
-
-
-
-
-
-
+    
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
 }
