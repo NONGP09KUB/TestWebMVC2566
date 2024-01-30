@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PRODUCT1.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
+
     public class RoleController : Controller
     {
 

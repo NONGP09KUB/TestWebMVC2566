@@ -154,8 +154,8 @@ namespace PRODUCT1.Controllers
 			}
 			_productContext.ShoppingCarts.RemoveRange(ShoppingCartVM.ListCart);
 			_productContext.SaveChanges();
-			TempData["Error"] = "successful transaction";
-			return RedirectToAction("Index", "Home");
+			TempData["Error"] = "successful";
+			return RedirectToAction("Home" , "Index" );
 
 		}
 		

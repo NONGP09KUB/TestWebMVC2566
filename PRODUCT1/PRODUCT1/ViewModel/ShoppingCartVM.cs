@@ -10,3 +10,4 @@ namespace PRODUCT1.ViewModel
         public IFormFile file { get; set; }
     }
 }
+    

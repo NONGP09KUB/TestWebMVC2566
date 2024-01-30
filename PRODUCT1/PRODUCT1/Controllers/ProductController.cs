@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PRODUCT1.Migrations;
 using PRODUCT1.ViewModel;
@@ -6,6 +7,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PRODUCT1.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
+
     public class ProductController : Controller
     {
         private readonly IWebHostEnvironment webHostEnvironment;
